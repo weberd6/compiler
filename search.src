@@ -1,0 +1,49 @@
+program linearsearch is
+
+global string name[8];
+integer id[8];
+string name_found;
+
+// Give an id and finds the corresponding name in a global array
+procedure linear_search(integer list[8] in, integer search_id in, string aname out)
+  integer curr_id;
+  integer index;
+  string msg;
+begin
+  msg := "Not found";
+  index := 0;
+  for (index := index + 1; index < 8)
+    curr_id := list[index];
+    if (curr_id == search_id) then
+      aname := name[index];
+      return;
+    end if;
+  end for;
+  aname := msg;
+end procedure; // End linear_search
+
+begin // Main program statements
+
+id[0] := 3729;
+id[1] := 9837;
+id[2] := 2094;
+id[3] := 3043;
+id[4] := 0283;
+id[5] := 5049;
+id[6] := 2424;
+id[7] := 9134;
+
+name[0] := "Bob";
+name[1] := "George";
+name[2] := "Mary";
+name[3] := "Joe";
+name[4] := "Melinda";
+name[5] := "Jerry";
+name[6] := "Richard";
+name[7] := "Elizabeth";
+
+linear_search(id, 5049, name_found);
+
+putString(name_found);
+
+end program

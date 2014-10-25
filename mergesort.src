@@ -1,0 +1,97 @@
+program mergesort is
+
+  global integer list_size;
+  float my_list[8];
+
+  // Merge_sort procedure
+  procedure merge_sort(float list[8] out, integer low in, integer high in)
+    integer mid;
+    procedure merge(float list[8] out, integer low in, integer x in, integer high in)
+      integer cur_pos_1;
+      integer cur_pos_2;
+      integer counter;
+      float temp[8];
+      integer k;
+      procedure increment(integer num out)
+      begin
+        num := num + 1;
+      end procedure;
+    begin  
+      cur_pos_1 := low;
+      cur_pos_2 := x + 1;
+      counter := low;
+
+      for (counter := counter + 1; cur_pos_1 <= x & cur_pos_2 <= high)
+      // Merge to out_list
+        if (list[cur_pos_1] <= list[cur_pos_2]) then
+          temp[counter] := list[cur_pos_1];
+          increment(cur_pos_1);
+        else
+          temp[counter] := list[cur_pos_2];
+          increment(cur_pos_2);
+        end if;
+      end for;
+  
+      // Copy remaining elements
+      if (cur_pos_1 > x) then
+        k := cur_pos_2;
+        for (k := k + 1; k <= high)
+          temp[counter] := list[k];
+          increment(counter);
+        end for;
+      else
+        k := cur_pos_1;
+        for (k := k + 1; k <= x)
+          temp[counter] := list[k];
+          increment(counter);
+        end for;
+      end if;
+    
+      k := low;
+      for (k := k + 1; k <= high)
+        list[k] := temp[k];
+      end for;
+    end procedure;
+  
+  begin
+    if (low < high) then
+      mid := (low + high)/2;
+      merge_sort(list, low, mid);
+      merge_sort(list, mid + 1, high);
+      merge(list, low, mid, high);
+    end if;
+  end procedure; // End merge_sort procedure
+  
+  procedure printList(float list[8] in)
+    integer i;
+  begin
+    i := 0;
+    for(i := i+1; i < list_size)
+      putFloat(list[i]);
+      putString("  ");
+    end for;
+    putString("\n");
+  end procedure;
+  
+  procedure getList(float list[8] out)
+    integer i;
+    float float_value;
+  begin
+    i := 0;
+    for (i := i + 1; i < list_size)
+      putString("index "); putInteger(i); putString(": ");
+      getFloat(float_value);
+      list[i] := float_value;
+    end for;
+  end procedure;
+
+begin // Begin program statements
+
+  list_size := 8;
+
+  getList(my_list);
+  printList(my_list);
+  merge_sort(my_list, 0, list_size-1);
+  printList(my_list);
+
+end program

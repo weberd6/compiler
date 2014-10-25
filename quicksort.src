@@ -1,0 +1,75 @@
+program quicksort is
+
+  global integer list_size;
+  float my_list[8];
+  
+  procedure quick_sort(float list[8] out, integer low in, integer high in)
+    integer pivot_index;
+    procedure partition(float list[8] out, integer low in, integer high in, integer pivot_index out)
+      float pivot_value;
+      integer i;
+      procedure swap(float num1 out, float num2 out)
+        float temp;
+      begin
+        temp := num1;
+        num1 := num2;
+        num2 := temp;
+      end procedure;
+    // In-place version of partition
+    begin
+      pivot_value := list[pivot_index];
+      swap(list[pivot_index], list[high]);
+      pivot_index := low;
+      i := low;
+      for (i := i + 1; i < high)
+        if(list[i] <= pivot_value) then
+          swap(list[i], list[pivot_index]);
+          pivot_index := pivot_index + 1;
+        end if;
+      end for;
+      swap(list[pivot_index], list[high]);
+    end procedure;
+
+  begin
+    if (high > low) then
+      pivot_index := low + (high - low)/2;
+      partition(list, low, high, pivot_index);
+      quick_sort(list, low, pivot_index-1);
+      quick_sort(list, pivot_index+1, high);
+    end if;
+  end procedure;
+  
+  procedure printList(float list[8] in)
+    integer i;
+  begin
+    i := 0;
+    for(i := i+1; i < 8)
+      putFloat(list[i]);
+      putString("  ");
+    end for;
+    putString("\n");
+  end procedure;
+  
+  procedure getList(float list[8] out)
+    integer i;
+    float float_value;
+  begin
+    i := 0;
+    for (i := i + 1; i < list_size)
+      putString("index "); putInteger(i); putString(": ");
+      getFloat(float_value);
+      list[i] := float_value;
+    end for;
+  end procedure;
+
+begin
+
+  list_size := 8;
+
+  getList(my_list);
+  printList(my_list);
+  quick_sort(my_list, 0, list_size-1);
+  printList(my_list);
+
+end program
+

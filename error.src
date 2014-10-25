@@ -1,0 +1,78 @@
+program errors is
+
+  float redeclaration;
+  string redeclaration; // Should throw error
+  global bool scope;
+  global integer scope2;
+  float float1;
+  float float2;
+  integer int1;
+  integer int2;
+  string string1;
+  string string2;
+  bool bool1;
+  bool bool2;
+
+  procedure test_procedure(string intest in, float outtest out) // Unused in param and uninitialized out param
+    integer scope; // Should be fine
+    global bool test; // should throw warning
+  begin
+    intest := "Should be a warning"; // Modifying 'in' parameter
+    scope := 23;
+    scope2 := 24;
+  end procedure;
+  // intest is never used and outtest is never initialized, this will throw warning
+  
+begin
+
+  undeclared := "This is an undeclared variable"; 
+
+  float1 := 45.353;
+  int1 := 2;
+
+  float2 := float2 + int1; // Is allowed
+
+  int1 := 10 + float1; // Not allowed
+
+  string1 := "Test string";
+  string2 := "Another test";
+  string1 := string1+string2; // Error
+
+  redeclaration := true; // Error
+  
+  // Missing semicolon
+  int1 := scope2
+  
+  // Wrong assignment operator
+  string1 = string2;
+
+  int1 := 1;
+  int2 := 2;
+  bool1 := true;
+  bool2 := false;
+  if (int1 == bool1) then
+    putString("This should be okay\n");
+  end if;
+  
+  if (int2 != bool2) then     // Runtime data conversion error
+    putString("This is not okay\n");
+  end if;
+  
+  if ((bool1 > bool2) & (bool1 <= bool2) | (int2 == false)) then
+    ;//This is not allowed
+  end if;
+  
+  int1 := 1;
+  int2 := 2;
+  if (not (int1 & int2) == (int1 | int2)) then
+    putString("This expression should be true\n");
+  end if;
+  
+  if (string1) then
+    bool1 := bool2;
+  end if;
+  
+  for ( ; float2) // Allowed to have empty assignment but invalid expression
+  end for;
+  
+end program
